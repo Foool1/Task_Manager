@@ -26,11 +26,13 @@ Poprzez wystawione końcówki (HTTP API Endpoints) aplikacja powinna umożliwia�
 5. Usuwanie zadania - opcja pozwalająca usunąć dowolne zadanie w systemie.
 6. Przedstawienie historii zmian zadań - opcja pozwala wyświetlić historię wszystkich dokonanych zmian dla zadań. Należy zapewnić odpowiednią filtrację pozwalającą wyświetlić np. tylko historię zmian dla danego zadania. Z końcówki powinna być możliwość otrzymania informacji, jakie dane zawierało zadanie w konkretnym czasie (np. jaki status miało dane zadanie kilka dni temu i do kogo było przypisane).
 
-Stworzona aplikacja powinna posiadać plik README.md, który będzie zawierać szczegółową instrukcję uruchomienia aplikacji. Powinna zawierać minimum informacje potrzebne do uruchomienia bazy danych i serwera aplikacji.
-
 Dodatkowym atutem będzie jeśli:
 * Zostanie zaimplementowane logowanie użytkowników i rejestracja użytkowników,
 * Aplikacja będzie posiadać system uprawnień,
+
+
+
+Stworzona aplikacja powinna posiadać plik README.md, który będzie zawierać szczegółową instrukcję uruchomienia aplikacji. Powinna zawierać minimum informacje potrzebne do uruchomienia bazy danych i serwera aplikacji.
 * Aplikacja będzie posiadać testy z użyciem pytest,
 * Aplikacja będzie uruchomiona na serwerze gunicorn,
 * Aplikacja będzie uruchomiona z użyciem docker i docker compose,
@@ -39,3 +41,11 @@ Dodatkowym atutem będzie jeśli:
 
 1. Stworzyc model zadan
 2. Stworzyc model uzytkownika
+
+Endpoints
+1. Create task
+2. Patch task
+3. get task
+4. delete task
+5. user create
+6.
