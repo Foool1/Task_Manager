@@ -34,4 +34,8 @@ Dodatkowym atutem będzie jeśli:
 * Aplikacja będzie posiadać testy z użyciem pytest,
 * Aplikacja będzie uruchomiona na serwerze gunicorn,
 * Aplikacja będzie uruchomiona z użyciem docker i docker compose,
-* W pliku README.md zawarta będzie dokumentacja przedstawiająca w jaki sposób można korzystać z API oraz przykładowe odpytania końcówek np. przy użyciu komendy curl. 
+* W pliku README.md zawarta będzie dokumentacja przedstawiająca w jaki sposób można korzystać z API oraz przykładowe odpytania końcówek np. przy użyciu komendy curl.
+
+
+1. Stworzyc model zadan
+2. Stworzyc model uzytkownika
