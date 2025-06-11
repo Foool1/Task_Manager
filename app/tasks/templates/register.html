@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Rejestracja</h1>
+    <div class="tasks">
+        <a href="{% url 'tasks' %}">Wróć</a>
+    </div>
+    <div class="input-container">
+        <input type="text" id="nick" placeholder="Wprowadz nazwe uzytkownika"><br>
+        <input type="text" id="email" placeholder="Wprowadz email"><br>
+        <input type="text" id="password1" placeholder="Wprowadz haslo"><br>
+        <input type="text" id="password2" placeholder="powtorz haslo"><br>
+        <button onclick="register()">Zarejestruj</button>
+    </div>
+
+    <div id="errBox" style="color: red; margin-top: 10px;"></div>
+
+    <script>
+        function register() {
+            const login = document.getElementById("nick").value;
+            const email = document.getElementById("email").value
+            const password = document.getElementById("password1").value;
+            const password2 = document.getElementById("password2").value;
+
+            fetch(`/api/register/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: login,
+                    email: email,
+                    password: password,
+                    password2: password2,
+                })
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((err) => {
+                        throw new Error(err.error || "Login failed");
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                window.location.href = "/";
+            })
+            .catch((error) => {
+                console.error("Login error:", error);
+                document.getElementById("errBox").textContent = error.message;
+            });
+        }
+    </script>
+</body>
+</html>

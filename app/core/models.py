@@ -1,9 +1,5 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-
+from django.contrib.auth.models import User
 
 
 class Task(models.Model):
@@ -13,17 +9,10 @@ class Task(models.Model):
         ('W toku', 'W toku'),
         ('Rozwiązany', 'Rozwiązany'),
     ]
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    nazwa = models.CharField(max_length=255)
+    opis = models.TextField(blank=True, null=True)
     status = models.CharField(choices=status_choices, default="Nowy")
-    assigned_user = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='assigned_tasks'
-    )
-
+    przypisany_uzytkownik = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name} (status: {self.status})"
+        return self.nazwa

@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Logowanie</h1>
+    <div class="tasks">
+        <a href="{% url 'tasks' %}">Wróć</a>
+    </div>
+
+    <div class="input-container">
+        <input type="text" id="loginRef" placeholder="Wprowadz login">
+        <input type="text" id="passwordRef" placeholder="Wprowadz haslo">
+        <button onclick="login()">Zaloguj</button>
+    </div>
+
+
+    <script>
+        function login() {
+            const login = document.getElementById("loginRef").value;
+            const password = document.getElementById("passwordRef").value;
+
+            fetch(`/api/login/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: login,       // <-- jeśli logujesz przez username, nie email!
+                    password: password,
+                })
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((err) => {
+                        throw new Error(err.error || "Login failed");
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                localStorage.setItem("usrToken", "Token " + data.token);
+                localStorage.setItem("isLogged", true);
+                window.location.href = "/"; // zamiast `navigate` (to React)
+            })
+            .catch((error) => {
+                console.error("Login error:", error);
+                document.getElementById("errBox").textContent = error.message;
+            });
+        }
+    </script>
+</body>
+</html>

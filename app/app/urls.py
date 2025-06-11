@@ -16,10 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
+from tasks.views import TaskViewSet, RegisterUserView, tasks_page_view, login_page_view, register_page_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('api/register/', RegisterUserView.as_view(), name='register'),
+    path('api/login/', obtain_auth_token, name='login'),
+    path('', tasks_page_view, name='tasks'),
+    path('login/', login_page_view, name='login'),
+    path('register/', register_page_view, name='register'),
 ]
