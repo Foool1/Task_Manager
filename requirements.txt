@@ -7,3 +7,4 @@ django-filter
 django-simple-history
 pytest
 pytest-django
+gunicorn>=21.2.0
