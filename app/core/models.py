@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from simple_history.models import HistoricalRecords
 
 
 class Task(models.Model):
@@ -12,7 +13,9 @@ class Task(models.Model):
     nazwa = models.CharField(max_length=255)
     opis = models.TextField(blank=True, null=True)
     status = models.CharField(choices=status_choices, default="Nowy")
-    przypisany_uzytkownik = models.TextField(blank=True, null=True)
+    przypisany_uzytkownik = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.nazwa

@@ -20,6 +20,10 @@ Poprzez wystawione końcówki (HTTP API Endpoints) aplikacja powinna umożliwia�
    * Przypisany użytkownik - pole wypełniane opcjonalnie, może pozostać puste. Powinna być możliwość wyboru użytkownika z listy dostępnych użytkowników w aplikacji,
    * Opis -  pole wypełniane opcjonalnie, może pozostać puste.
 
+
+
+
+
 2. Edycję zadania - opcja pozwalająca edytować wszystkie pola zadania oprócz id.
 
 3. Przedstawienie filtrowanej listy zadań - opcja pozwalająca wyświetlić wszystkie zadania w systemie, z możliwością filtracji po każdym polu (tj. id, nazwie, opisie, statusie i użytkowniku). Przykładowo, powinna być możliwość wyświetlenia listy:
@@ -33,10 +37,17 @@ Poprzez wystawione końcówki (HTTP API Endpoints) aplikacja powinna umożliwia�
 Dodatkowym atutem będzie jeśli:
 * Aplikacja będzie posiadać system uprawnień,
 
+
+
 Stworzona aplikacja powinna posiadać plik README.md, który będzie zawierać szczegółową instrukcję uruchomienia aplikacji. Powinna zawierać minimum informacje potrzebne do uruchomienia bazy danych i serwera aplikacji.
 * Aplikacja będzie posiadać testy z użyciem pytest,
 * Aplikacja będzie uruchomiona na serwerze gunicorn,
 
+
 * W pliku README.md zawarta będzie dokumentacja przedstawiająca w jaki sposób można korzystać z API oraz przykładowe odpytania końcówek np. przy użyciu komendy curl.
+
+
+
+
 
 sudo docker compose run --rm app sh -c "python manage.py"
