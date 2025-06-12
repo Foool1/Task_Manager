@@ -11,13 +11,17 @@ Zadanie powinno posiadać następujące pola:
 * przypisany użytkownik -  użytkownik dostępny w aplikacji.
 
 Poprzez wystawione końcówki (HTTP API Endpoints) aplikacja powinna umożliwiać:
+
+
 1.  Dodawanie zadania z wypełnionymi polami (wymienionymi wyżej). Przy czym pola te powinny być zgodne z poniższymi wymaganiami:
    * ID - nadawane automatycznie jako kolejne numery z sekwencji,
    * Nazwa - pole wymagane, podawane przez użytkownika,
    * Status (utworzonego zadania) -  domyślnie powinien być ustawiony jako 'Nowy'. Użytkownik powinien mieć możliwość zmiany statusu początkowego, z ustawionego domyślnie na inny dostępny dla tego pola.
    * Przypisany użytkownik - pole wypełniane opcjonalnie, może pozostać puste. Powinna być możliwość wyboru użytkownika z listy dostępnych użytkowników w aplikacji,
    * Opis -  pole wypełniane opcjonalnie, może pozostać puste.
+
 2. Edycję zadania - opcja pozwalająca edytować wszystkie pola zadania oprócz id.
+
 3. Przedstawienie filtrowanej listy zadań - opcja pozwalająca wyświetlić wszystkie zadania w systemie, z możliwością filtracji po każdym polu (tj. id, nazwie, opisie, statusie i użytkowniku). Przykładowo, powinna być możliwość wyświetlenia listy:
    * zadań przypisanych do danego użytkownika
    * wszystkich zadań rozwiązanych albo nowych albo w toku.
@@ -27,25 +31,12 @@ Poprzez wystawione końcówki (HTTP API Endpoints) aplikacja powinna umożliwia�
 6. Przedstawienie historii zmian zadań - opcja pozwala wyświetlić historię wszystkich dokonanych zmian dla zadań. Należy zapewnić odpowiednią filtrację pozwalającą wyświetlić np. tylko historię zmian dla danego zadania. Z końcówki powinna być możliwość otrzymania informacji, jakie dane zawierało zadanie w konkretnym czasie (np. jaki status miało dane zadanie kilka dni temu i do kogo było przypisane).
 
 Dodatkowym atutem będzie jeśli:
-* Zostanie zaimplementowane logowanie użytkowników i rejestracja użytkowników,
 * Aplikacja będzie posiadać system uprawnień,
-
-
 
 Stworzona aplikacja powinna posiadać plik README.md, który będzie zawierać szczegółową instrukcję uruchomienia aplikacji. Powinna zawierać minimum informacje potrzebne do uruchomienia bazy danych i serwera aplikacji.
 * Aplikacja będzie posiadać testy z użyciem pytest,
 * Aplikacja będzie uruchomiona na serwerze gunicorn,
-* Aplikacja będzie uruchomiona z użyciem docker i docker compose,
+
 * W pliku README.md zawarta będzie dokumentacja przedstawiająca w jaki sposób można korzystać z API oraz przykładowe odpytania końcówek np. przy użyciu komendy curl.
 
-
-1. Stworzyc model zadan
-2. Stworzyc model uzytkownika
-
-Endpoints
-1. Create task
-2. Patch task
-3. get task
-4. delete task
-5. user create
-6.
+sudo docker compose run --rm app sh -c "python manage.py"

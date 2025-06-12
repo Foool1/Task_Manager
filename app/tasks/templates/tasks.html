@@ -7,18 +7,81 @@
     <title>Tasks</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body>
-    <h1>Zadania</h1>
-
+    <h1>Lista zadań</h1>
     <div class="login">
-        <a href="{% url 'login' %}">Logowanie</a>
+        <a href="{% url 'create_task' %}">Create new task</a>
     </div>
+    <table id="tasksTable" border="1" style="width:100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th style="width: 10%;">Nazwa</th>
+            <th style="width: 60%;">Opis</th>
+            <th>Status</th>
+            <th>użytkownik</th>
+        </tr>
+    </thead>
+    <tbody id="taskTableBody">
 
-    <div class="register">
-        <a href="{% url 'register' %}">Rejestracja</a>
-    </div>
+    </tbody>
+    </table>
+
+<p id="message"></p>
 
     <script>
+        async function fetchTasks() {
+    const token = localStorage.getItem("usrToken");
+    if (!token) {
+        document.getElementById("message").innerText = "Brak tokenu – użytkownik niezalogowany.";
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/tasks/", {
+            method: "GET",
+            headers: {
+                "Authorization": token,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Nie udało się pobrać zadań");
+        }
+
+        const tasks = await response.json();
+        const tbody = document.getElementById("taskTableBody");
+        const message = document.getElementById("message");
+
+        tbody.innerHTML = "";
+        message.innerText = "";
+
+        if (tasks.length === 0) {
+            message.innerText = "Brak zadań.";
+            return;
+        }
+
+        tasks.forEach(task => {
+            const row = `
+                <tr>
+                    <td>${task.nazwa}</td>
+                    <td>${task.opis}</td>
+                    <td>${task.status}</td>
+                    <td>${task.przypisany_uzytkownik || "Brak"}</td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+
+    } catch (err) {
+        document.getElementById("message").innerText = "Błąd: " + err.message;
+        console.error(err);
+    }
+}
+
+window.onload = fetchTasks;
+
     </script>
 </body>
 </html>

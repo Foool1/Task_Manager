@@ -14,8 +14,8 @@
     </div>
 
     <div class="input-container">
-        <input type="text" id="loginRef" placeholder="Wprowadz login">
-        <input type="text" id="passwordRef" placeholder="Wprowadz haslo">
+        <input type="text" id="loginRef" placeholder="Wprowadz login"><br>
+        <input type="text" id="passwordRef" placeholder="Wprowadz haslo"><br>
         <button onclick="login()">Zaloguj</button>
     </div>
 
@@ -31,7 +31,7 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    username: login,       // <-- jeśli logujesz przez username, nie email!
+                    username: login,
                     password: password,
                 })
             })
@@ -47,7 +47,7 @@
                 console.log(data);
                 localStorage.setItem("usrToken", "Token " + data.token);
                 localStorage.setItem("isLogged", true);
-                window.location.href = "/"; // zamiast `navigate` (to React)
+                window.location.href = "/tasks";
             })
             .catch((error) => {
                 console.error("Login error:", error);

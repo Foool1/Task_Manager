@@ -22,12 +22,17 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
+class SimpleUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
+
 class TaskSerializer(serializers.ModelSerializer):
     przypisany_uzytkownik = RegisterUserSerializer(read_only=True)
-    przypisany_uzytkownik_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), source='przypisany_uzytkownik', write_only=True, required=False
-    )
+
 
     class Meta:
         model = Task
-        fields = ['id', 'nazwa', 'opis', 'status', 'przypisany_uzytkownik', 'przypisany_uzytkownik_id']
+        fields = ['id', 'nazwa', 'opis', 'status', 'przypisany_uzytkownik']
