@@ -2,7 +2,7 @@
 
 Prosta aplikacja backendowa do zarządzania zadaniami, zbudowana w Django + DRF + PostgreSQL.
 
-## ✨ Główne funkcje
+## Główne funkcje
 
 - Tworzenie oraz administracja zadan uzytkownikow
 - Filtrowanie po wszystkich polach
@@ -15,6 +15,7 @@ Prosta aplikacja backendowa do zarządzania zadaniami, zbudowana w Django + DRF 
 git clone https://github.com/Foool1/Task_Manager.git
 cd Task_Manager
 docker compose up --build
+```
 
 # Uzywanie aplikacji
 
