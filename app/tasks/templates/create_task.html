@@ -9,6 +9,7 @@
 </head>
 <body>
     <h1>Create Task</h1>
+
     <div class="login">
       <a href="{% url 'tasks' %}">Tasks</a>
     </div>
@@ -52,7 +53,7 @@
 
           users.forEach(user => {
               const option = document.createElement("option");
-              option.value = user.id;
+              option.value = user.username;
               option.text = user.username;
               userSelect.appendChild(option);
           });
@@ -76,12 +77,9 @@
           const data = {
             nazwa: name,
             opis: description,
-            status: status
+            status: status,
+            przypisany_uzytkownik: assignedUser
           };
-
-          if (assignedUser) {
-            data.przypisany_uzytkownik = parseInt(assignedUser);
-          }
 
           fetch("/api/tasks/", {
             method: "POST",

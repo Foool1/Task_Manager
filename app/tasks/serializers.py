@@ -29,9 +29,13 @@ class SimpleUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username']
 
 
-class TaskSerializer(serializers.ModelSerializer):
-    przypisany_uzytkownik = RegisterUserSerializer(read_only=True)
 
+class TaskSerializer(serializers.ModelSerializer):
+    przypisany_uzytkownik = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        allow_null=True
+    )
 
     class Meta:
         model = Task

@@ -30,6 +30,7 @@ from tasks.views import (
     register_page_view,
     create_task_page_view,
     task_page_view,
+    edit_task_page_view,
 )
 
 urlpatterns = [
@@ -39,9 +40,10 @@ urlpatterns = [
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/', include('tasks.urls')),
-    path('', main_page_view, name='tasks'),
+    path('', main_page_view, name='main'),
     path('login/', login_page_view, name='login'),
-    path('tasks/', task_page_view, name='task'),
+    path('tasks/', task_page_view, name='tasks'),
     path('register/', register_page_view, name='register'),
     path('create_task/', create_task_page_view, name='create_task'),
+    path('edit_task/', edit_task_page_view, name='edit_task'),
 ]

@@ -12,7 +12,7 @@ class Task(models.Model):
     nazwa = models.CharField(max_length=255)
     opis = models.TextField(blank=True, null=True)
     status = models.CharField(choices=status_choices, default="Nowy")
-    przypisany_uzytkownik = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    przypisany_uzytkownik = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.nazwa

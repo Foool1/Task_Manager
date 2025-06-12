@@ -22,6 +22,9 @@ def create_task_page_view(request):
 def task_page_view(request):
     return render(request, 'tasks.html')
 
+def edit_task_page_view(request):
+    return render(request, 'edit_task.html')
+
 class RegisterUserView(mixins.CreateModelMixin,
                           viewsets.GenericViewSet):
     queryset = User.objects.all()
@@ -38,7 +41,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all().order_by('id')
     serializer_class = TaskSerializer
-    permission_classes = [AllowAny]  # lub IsAuthenticated jeśli chcesz ochronić
+    permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
     filterset_fields = ['id', 'status', 'przypisany_uzytkownik']
     search_fields = ['nazwa', 'opis']
