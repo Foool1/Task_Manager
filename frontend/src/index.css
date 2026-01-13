@@ -1,0 +1,71 @@
+.card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  background-color: var(--card-bg);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Lepsze badge'y statusów – bardziej czytelne i eleganckie */
+.badge {
+  font-weight: 500;
+  padding: 0.5em 1em;
+  border-radius: 2rem;
+  font-size: 0.9rem;
+}
+
+/* Statusy – kolory + ikony (opcjonalnie) */
+.badge.bg-primary    { background-color: #0d6efd !important; }
+.badge.bg-warning    { background-color: #ffc107 !important; color: #212529; }
+.badge.bg-success    { background-color: #198754 !important; }
+.badge.bg-secondary  { background-color: #6c757d !important; }
+
+/* Tytuł strony – bardziej premium */
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #212529;
+}
+
+/* Kontener główny – więcej powietrza */
+.container {
+  max-width: 1200px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  transition: box-shadow 0.3s ease;
+}
+
+:root {
+  --primary: #0d6efd;           /* Bootstrap primary, ale możesz zmienić */
+  --primary-dark: #0b5ed7;
+  --success: #198754;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light-bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-muted: #6c757d;
+}
+
