@@ -1,4 +1,3 @@
-// src/pages/TicketsList.tsx
 import { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
@@ -22,7 +21,7 @@ export default function TicketsList() {
 
     try {
       const res = await api.get('/api/posts/', {
-        params: { _nocache: Date.now() } // wymusza świeże dane
+        params: { _nocache: Date.now() }
       });
 
       console.log('Pobrane tickety:', res.data);
@@ -73,12 +72,12 @@ export default function TicketsList() {
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Tickety</h1>
+        <h1>Posty</h1>
 
         <div>
           {token && (
             <Link to="/tickets/new" className="btn btn-primary me-2">
-              + Nowy ticket
+              + Nowy post
             </Link>
           )}
           <button

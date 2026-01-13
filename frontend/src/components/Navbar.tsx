@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
@@ -16,7 +15,7 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
       <div className="container-fluid px-4">
         <Link className="navbar-brand fw-bold fs-4" to="/">
-          Tickety
+          Blog
         </Link>
 
         <button
@@ -31,11 +30,11 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Lista ticketów</Link>
+              <Link className="nav-link" to="/">Posty</Link>
             </li>
             {token && (
               <li className="nav-item">
-                <Link className="nav-link" to="/tickets/new">Nowy ticket</Link>
+                <Link className="nav-link" to="/tickets/new">Nowy post</Link>
               </li>
             )}
           </ul>
