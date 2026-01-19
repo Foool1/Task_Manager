@@ -10,11 +10,6 @@ export default function TicketsList() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchTickets = async () => {
-    if (!token) {
-      setLoading(false);
-      setError('Musisz być zalogowany, aby zobaczyć tickety');
-      return;
-    }
 
     setLoading(true);
     setError(null);
@@ -30,10 +25,6 @@ export default function TicketsList() {
       console.error('Błąd pobierania ticketów:', err);
       setError('Nie udało się pobrać listy ticketów');
 
-      if (err.response?.status === 401) {
-        console.log('401 → automatyczne wylogowanie');
-        logout();
-      }
     } finally {
       setLoading(false);
     }
@@ -41,7 +32,7 @@ export default function TicketsList() {
 
   useEffect(() => {
     fetchTickets();
-  }, [token, logout]);
+  }, [logout]);
 
   const handleRefresh = () => {
     fetchTickets();

@@ -4,10 +4,31 @@ from .serializers import PostHistorySerializer
 from .serializers import PostSerializer, RegisterUserSerializer, SimpleUserSerializer, CommentSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.models import User
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly, SAFE_METHODS, BasePermission
 from django.shortcuts import render
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+
+class IsSuperuserOrReadOnly(BasePermission):
+    """
+    Tylko superuser może tworzyć / modyfikować / usuwać.
+    Czytanie (GET, HEAD, OPTIONS) dla wszystkich.
+    """
+    def has_permission(self, request, view):
+        # SAFE_METHODS → GET, HEAD, OPTIONS → każdy
+        if request.method in SAFE_METHODS:
+            return True
+        # reszta (POST, PUT, PATCH, DELETE) → tylko superuser
+        return request.user and request.user.is_superuser
+
+
+class IsAuthenticatedOrReadOnly(BasePermission):
+    # ← już znasz, ale dla kompletności
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        return request.user and request.user.is_authenticated
 
 
 class AllowOptions(IsAuthenticated):
@@ -36,9 +57,9 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all().order_by('id')
+    queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSuperuserOrReadOnly]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
     filterset_fields = ['id', 'status', 'przypisany_uzytkownik']
     search_fields = ['nazwa', 'opis']
@@ -59,7 +80,7 @@ class PostHistoryListView(generics.ListAPIView):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['post']
 
@@ -80,7 +101,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def check_object_permissions(self, request, obj):
         if self.action in ['update', 'partial_update', 'destroy']:
-            if obj.author != request.user and not request.user.is_staff:
+            if obj.author != request.user and not request.user.is_superuser:
                 self.permission_denied(request)
         super().check_object_permissions(request, obj)
 

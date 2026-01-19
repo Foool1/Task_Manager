@@ -4,10 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
-
-// src/pages/TicketForm.tsx – wersja uproszczona
-
-// ... importy bez zmian
+import { toast } from 'react-toastify';
 
 export default function TicketForm() {
   const { id } = useParams<{ id?: string }>();
@@ -20,7 +17,6 @@ export default function TicketForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Jeśli edycja – pobierz dane (bez zmian)
   useEffect(() => {
     if (!id || !token) return;
 
@@ -53,7 +49,6 @@ export default function TicketForm() {
       nazwa: nazwa.trim(),
       opis: opis.trim() || null,
       status,
-      // NIE wysyłamy przypisany_uzytkownik – backend sam to zrobi
     };
 
     try {
@@ -68,7 +63,7 @@ export default function TicketForm() {
       navigate(`/tickets/${newTicketId}`);
     } catch (err: any) {
       console.error('Błąd zapisu:', err);
-      let msg = 'Nie udało się zapisać ticketa';
+      let msg = 'Brak wystarczających uprawnień do stworzenia posta.';
       if (err.response?.status === 400) {
         const data = err.response.data;
         msg = data?.nazwa?.[0] || data?.detail || msg;
@@ -81,7 +76,7 @@ export default function TicketForm() {
 
   return (
     <div className="container mt-5">
-      <h1>{id ? 'Edytuj ticket' : 'Nowy ticket'}</h1>
+      <h1>{id ? 'Edytuj ticket' : 'Nowy post'}</h1>
 
       {error && <div className="alert alert-danger">{error}</div>}
 
@@ -130,7 +125,7 @@ export default function TicketForm() {
           className="btn btn-primary"
           disabled={loading}
         >
-          {loading ? 'Zapisywanie...' : id ? 'Zapisz zmiany' : 'Utwórz ticket'}
+          {loading ? 'Zapisywanie...' : id ? 'Zapisz zmiany' : 'Utwórz post'}
         </button>
 
         <Link to="/" className="btn btn-secondary ms-3">

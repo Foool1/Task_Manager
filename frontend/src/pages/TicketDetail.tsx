@@ -1,4 +1,3 @@
-// src/pages/TicketDetail.tsx
 import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../api/axios';
@@ -12,26 +11,19 @@ export default function TicketDetail() {
   const [comments, setComments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Stan do formularza komentarzy
   const [newComment, setNewComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [commentError, setCommentError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!token || !id) {
-      setLoading(false);
-      return;
-    }
 
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Pobierz ticket
         const ticketRes = await api.get(`/api/posts/${id}/`);
         setTicket(ticketRes.data);
         console.log('Ticket:', ticketRes.data);
 
-        // Pobierz komentarze (filtr po post=id)
         const commentsRes = await api.get('/api/comments/', {
           params: { post: Number(id) }
         });
@@ -45,7 +37,7 @@ export default function TicketDetail() {
     };
 
     fetchData();
-  }, [token, id]);
+  }, [id]);
 
   const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +48,7 @@ export default function TicketDetail() {
 
     try {
       const payload = {
-        post: Number(id),           // ← obowiązkowe pole – id ticketa
+        post: Number(id),
         content: newComment.trim(),
       };
 
@@ -64,10 +56,8 @@ export default function TicketDetail() {
 
       await api.post('/api/comments/', payload);
 
-      // Sukces – wyczyść pole
       setNewComment('');
 
-      // Odśwież komentarze
       const res = await api.get('/api/comments/', {
         params: { post: Number(id) }
       });
@@ -81,9 +71,6 @@ export default function TicketDetail() {
       if (err.response?.status === 400) {
         const data = err.response.data;
         msg = data?.detail || data?.post?.[0] || data?.content?.[0] || msg;
-      } else if (err.response?.status === 401 || err.response?.status === 403) {
-        logout();
-        msg = 'Sesja wygasła – zaloguj się ponownie';
       }
 
       setCommentError(msg);
@@ -93,7 +80,7 @@ export default function TicketDetail() {
   };
 
   if (loading) return <div className="text-center mt-5"><div className="spinner-border" /></div>;
-  if (!ticket) return <div className="alert alert-warning">Ticket nie znaleziony</div>;
+  if (!ticket) return <div className="alert alert-warning">Post nie znaleziony</div>;
 
   return (
     <div>
