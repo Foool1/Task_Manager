@@ -1,71 +1,79 @@
-.card {
-  border: none;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.25s ease;
-  background-color: var(--card-bg);
-}
+/* 1. Import nowoczesnego fontu "Inter" */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-}
-
-/* Lepsze badge'y statusów – bardziej czytelne i eleganckie */
-.badge {
-  font-weight: 500;
-  padding: 0.5em 1em;
-  border-radius: 2rem;
-  font-size: 0.9rem;
-}
-
-/* Statusy – kolory + ikony (opcjonalnie) */
-.badge.bg-primary    { background-color: #0d6efd !important; }
-.badge.bg-warning    { background-color: #ffc107 !important; color: #212529; }
-.badge.bg-success    { background-color: #198754 !important; }
-.badge.bg-secondary  { background-color: #6c757d !important; }
-
-/* Tytuł strony – bardziej premium */
-h1 {
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: #212529;
-}
-
-/* Kontener główny – więcej powietrza */
-.container {
-  max-width: 1200px;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+:root {
+  /* Nadpisanie kolorów Bootstrapa na nowocześniejsze */
+  --bs-primary: #4f46e5;       /* Indigo */
+  --bs-primary-rgb: 79, 70, 229;
+  --bs-body-bg: #f8fafc;       /* Slate-50 (bardzo jasny szary) */
+  --bs-body-color: #334155;    /* Slate-700 (nie czarny, a ciemnoszary) */
+  --bs-font-sans-serif: 'Inter', sans-serif;
+  --bs-border-radius: 0.75rem; /* Bardziej zaokrąglone rogi */
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--bs-font-sans-serif);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  -webkit-font-smoothing: antialiased; /* Lepsze renderowanie fontów na Mac */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* 2. Stylowanie Kart - sprawiamy, że "odstają" od tła */
+.card {
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #ffffff;
 }
 
-.hover-shadow:hover {
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-  transition: box-shadow 0.3s ease;
+/* Efekt najechania na kartę (opcjonalnie, jeśli to link) */
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
 }
 
-:root {
-  --primary: #0d6efd;           /* Bootstrap primary, ale możesz zmienić */
-  --primary-dark: #0b5ed7;
-  --success: #198754;
-  --warning: #ffc107;
-  --danger: #dc3545;
-  --light-bg: #f8f9fa;
-  --card-bg: #ffffff;
-  --text-muted: #6c757d;
+/* 3. Nowoczesne Przyciski */
+.btn {
+  font-weight: 500;
+  padding: 0.6rem 1.2rem; /* Więcej oddechu */
+  letter-spacing: 0.025em;
 }
 
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3); /* Cień w kolorze przycisku */
+}
+
+.btn-primary:hover {
+  background-color: #4338ca; /* Ciemniejsze Indigo */
+  border-color: #4338ca;
+}
+
+/* 4. Navbar Custom */
+.navbar-custom {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: -0.05em; /* Ciaśniejszy kerning dla logo */
+  color: var(--bs-primary) !important;
+}
+
+/* Linki w nawigacji */
+.nav-link {
+  color: #64748b !important; /* Slate-500 */
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--bs-primary) !important;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, var(--bs-primary) 0%, #4338ca 100%);
+  color: white;
+}

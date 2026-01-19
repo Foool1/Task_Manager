@@ -34,104 +34,117 @@ export default function TicketForm() {
     };
     fetchTicket();
   }, [id, token]);
-
+  const [image, setImage] = useState<File | null>(null);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nazwa.trim()) {
-      setError('Nazwa jest wymagana');
-      return;
+    setLoading(true);
+
+    // Tworzymy obiekt FormData zamiast zwykłego obiektu
+    const formData = new FormData();
+    formData.append('nazwa', nazwa.trim());
+    formData.append('opis', opis.trim());
+    formData.append('status', status);
+
+    if (image) {
+      formData.append('image', image); // Dodajemy plik
     }
 
-    setLoading(true);
-    setError(null);
-
-    const payload = {
-      nazwa: nazwa.trim(),
-      opis: opis.trim() || null,
-      status,
-    };
-
     try {
-      let res;
-      if (id) {
-        res = await api.put(`/api/posts/${id}/`, payload);
-      } else {
-        res = await api.post('/api/posts/', payload);
-      }
+      const config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      };
 
-      const newTicketId = res.data.id;
-      navigate(`/tickets/${newTicketId}`);
-    } catch (err: any) {
-      console.error('Błąd zapisu:', err);
-      let msg = 'Brak wystarczających uprawnień do stworzenia posta.';
-      if (err.response?.status === 400) {
-        const data = err.response.data;
-        msg = data?.nazwa?.[0] || data?.detail || msg;
+      if (id) {
+        await api.put(`/api/posts/${id}/`, formData, config);
+      } else {
+        await api.post('/api/posts/', formData, config);
       }
-      setError(msg);
+      navigate('/');
+    } catch (err) {
+      // obsługa błędów...
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container mt-5">
-      <h1>{id ? 'Edytuj ticket' : 'Nowy post'}</h1>
+    <div className="row justify-content-center animate-fade-in py-4">
+      <div className="col-md-8 col-lg-6">
+        <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
+          <div className="hero-gradient p-4 text-white">
+             <h2 className="fw-bold mb-0 text-center">{id ? 'Edytuj wpis' : 'Utwórz nowy post'}</h2>
+          </div>
 
-      {error && <div className="alert alert-danger">{error}</div>}
+          <div className="card-body p-4 p-md-5">
+            {error && <div className="alert alert-danger rounded-3">{error}</div>}
 
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="nazwa" className="form-label">
-            Nazwa <span className="text-danger">*</span>
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="nazwa"
-            value={nazwa}
-            onChange={(e) => setNazwa(e.target.value)}
-            required
-          />
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="form-label small fw-bold text-secondary text-uppercase">Tytuł wpisu</label>
+                <input
+                  type="text"
+                  className="form-control form-control-lg bg-light border-0 px-3"
+                  placeholder="O czym chcesz napisać?"
+                  value={nazwa}
+                  onChange={(e) => setNazwa(e.target.value)}
+                  required
+                  style={{ borderRadius: '10px' }}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="form-label small fw-bold text-secondary text-uppercase">Zdjęcie posta</label>
+                <input
+                  type="file"
+                  className="form-control bg-light border-0"
+                  accept="image/*"
+                  onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="form-label small fw-bold text-secondary text-uppercase">Treść artykułu</label>
+                <textarea
+                  className="form-control bg-light border-0 px-3"
+                  rows={8}
+                  placeholder="Tutaj wpisz treść swojego posta..."
+                  value={opis}
+                  onChange={(e) => setOpis(e.target.value)}
+                  style={{ borderRadius: '10px' }}
+                />
+              </div>
+
+              <div className="mb-5">
+                <label className="form-label small fw-bold text-secondary text-uppercase">Status</label>
+                <select
+                  className="form-select bg-light border-0 px-3"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  style={{ borderRadius: '10px', height: '50px' }}
+                >
+                  <option value="Nowy">Nowy</option>
+                  <option value="W toku">W toku</option>
+                  <option value="Rozwiązany">Rozwiązany</option>
+                </select>
+              </div>
+
+              <div className="d-flex gap-2">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg flex-grow-1 rounded-pill shadow-sm"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <span className="spinner-border spinner-border-sm" />
+                  ) : id ? 'Zapisz zmiany' : 'Opublikuj post'}
+                </button>
+
+                <Link to={id ? `/tickets/${id}` : "/"} className="btn btn-light btn-lg border rounded-pill px-4 text-muted">
+                  Anuluj
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
-
-        <div className="mb-3">
-          <label htmlFor="opis" className="form-label">Opis</label>
-          <textarea
-            className="form-control"
-            id="opis"
-            rows={5}
-            value={opis}
-            onChange={(e) => setOpis(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="status" className="form-label">Status</label>
-          <select
-            className="form-select"
-            id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="Nowy">Nowy</option>
-            <option value="W toku">W toku</option>
-            <option value="Rozwiązany">Rozwiązany</option>
-          </select>
-        </div>
-
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={loading}
-        >
-          {loading ? 'Zapisywanie...' : id ? 'Zapisz zmiany' : 'Utwórz post'}
-        </button>
-
-        <Link to="/" className="btn btn-secondary ms-3">
-          Anuluj
-        </Link>
-      </form>
+      </div>
     </div>
   );
 }

@@ -53,7 +53,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'nazwa', 'opis', 'status', 'przypisany_uzytkownik',
             'przypisany_uzytkownik_id', 'created_at', 'updated_at',
-            'comments'
+            'comments', 'image'
         ]
 
 

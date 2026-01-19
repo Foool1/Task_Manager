@@ -14,7 +14,7 @@ class Post(models.Model):
     opis = models.TextField(blank=True, null=True)
     status = models.CharField(choices=status_choices, default="Nowy")
     przypisany_uzytkownik = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-
+    image = models.ImageField(upload_to='post_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

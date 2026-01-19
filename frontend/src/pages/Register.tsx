@@ -58,84 +58,72 @@ export default function Register() {
 
 
   return (
-    <div className="row justify-content-center">
+    <div className="row justify-content-center align-items-center animate-fade-in" style={{ minHeight: '80vh' }}>
       <div className="col-md-6 col-lg-5">
-        <div className="card shadow-sm mt-5">
+        <div className="card border-0 shadow-lg rounded-4 overflow-hidden">
+          <div className="hero-gradient" style={{ height: '6px' }}></div>
+
           <div className="card-body p-4 p-md-5">
-            <h2 className="text-center mb-4">Rejestracja</h2>
+            <div className="text-center mb-5">
+              <h2 className="fw-bold text-dark">Stwórz konto</h2>
+              <p className="text-muted">Dołącz do naszej społeczności blogerów</p>
+            </div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-3">
-                <label htmlFor="username" className="form-label">
-                  Nazwa użytkownika
-                </label>
-                <input
-                  id="username"
-                  type="text"
-                  className={`form-control ${errors.username ? 'is-invalid' : ''}`}
-                  {...register('username')}
-                />
-                {errors.username && <div className="invalid-feedback">{errors.username.message}</div>}
-              </div>
+              <div className="row">
+                <div className="col-md-12 mb-3">
+                  <label className="form-label small fw-bold text-secondary text-uppercase">Nazwa użytkownika</label>
+                  <input
+                    type="text"
+                    className={`form-control bg-light border-0 ${errors.username ? 'is-invalid' : ''}`}
+                    {...register('username')}
+                  />
+                  {errors.username && <div className="invalid-feedback">{errors.username.message}</div>}
+                </div>
 
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">
-                  Email (opcjonalnie)
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                  {...register('email')}
-                />
-                {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
-              </div>
+                <div className="col-md-12 mb-3">
+                  <label className="form-label small fw-bold text-secondary text-uppercase">Email (opcjonalnie)</label>
+                  <input
+                    type="email"
+                    className={`form-control bg-light border-0 ${errors.email ? 'is-invalid' : ''}`}
+                    {...register('email')}
+                  />
+                  {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
+                </div>
 
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">
-                  Hasło
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                  {...register('password')}
-                />
-                {errors.password && <div className="invalid-feedback">{errors.password.message}</div>}
-              </div>
+                <div className="col-md-6 mb-3">
+                  <label className="form-label small fw-bold text-secondary text-uppercase">Hasło</label>
+                  <input
+                    type="password"
+                    className={`form-control bg-light border-0 ${errors.password ? 'is-invalid' : ''}`}
+                    {...register('password')}
+                  />
+                  {errors.password && <div className="invalid-feedback">{errors.password.message}</div>}
+                </div>
 
-              <div className="mb-4">
-                <label htmlFor="password2" className="form-label">
-                  Powtórz hasło
-                </label>
-                <input
-                  id="password2"
-                  type="password"
-                  className={`form-control ${errors.password2 ? 'is-invalid' : ''}`}
-                  {...register('password2')}
-                />
-                {errors.password2 && <div className="invalid-feedback">{errors.password2.message}</div>}
+                <div className="col-md-6 mb-4">
+                  <label className="form-label small fw-bold text-secondary text-uppercase">Powtórz hasło</label>
+                  <input
+                    type="password"
+                    className={`form-control bg-light border-0 ${errors.password2 ? 'is-invalid' : ''}`}
+                    {...register('password2')}
+                  />
+                  {errors.password2 && <div className="invalid-feedback">{errors.password2.message}</div>}
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="btn btn-success w-100"
+                className="btn btn-primary btn-lg w-100 shadow-sm rounded-pill py-3"
                 disabled={loading}
               >
-                {loading ? (
-                  <>
-                    <span className="spinner-border spinner-border-sm me-2" />
-                    Tworzenie konta...
-                  </>
-                ) : (
-                  'Zarejestruj się'
-                )}
+                {loading ? <span className="spinner-border spinner-border-sm" /> : 'Zarejestruj się'}
               </button>
             </form>
 
-            <div className="text-center mt-4">
-              Masz już konto?{' '}
-              <a href="/login" className="text-primary">
+            <div className="text-center mt-5">
+              <span className="text-muted small">Masz już konto?</span>{' '}
+              <a href="/login" className="text-primary small fw-bold text-decoration-none">
                 Zaloguj się
               </a>
             </div>

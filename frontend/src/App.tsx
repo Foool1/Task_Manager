@@ -15,16 +15,19 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Navbar />
-        <div className="container mt-4 mb-5">
-          <Routes>
-            <Route path="/" element={<TicketsList />} />
-            <Route path="/tickets/:id" element={<TicketDetail />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/tickets/new" element={<PrivateRoute><TicketForm /></PrivateRoute>} />
-            <Route path="/tickets/:id/edit" element={<PrivateRoute><TicketForm /></PrivateRoute>} />
-          </Routes>
+        <div className="d-flex flex-column min-vh-100"> {/* Wrapper na całą apkę */}
+          <Navbar />
+          {/* ZMIANA: py-5 dla większego oddechu góra/dół */}
+          <div className="container py-5 flex-grow-1">
+            <Routes>
+              <Route path="/" element={<TicketsList />} />
+              <Route path="/tickets/:id" element={<TicketDetail />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/tickets/new" element={<PrivateRoute><TicketForm /></PrivateRoute>} />
+              <Route path="/tickets/:id/edit" element={<PrivateRoute><TicketForm /></PrivateRoute>} />
+            </Routes>
+          </div>
         </div>
       </BrowserRouter>
     </AuthProvider>
