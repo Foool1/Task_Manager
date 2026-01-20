@@ -1,21 +1,3 @@
-- Dodac usuwanie komentarzy przez superusera
-
-- Usuwanie postow przez superusera
-
-- poprawa wylogowywania
-
-- Dodanie wyszukiwania postow
-
-- Poprawienie tego Nowy, w Toku, Rozwiazany na cos normalnego Moze po czasie automatycznie zmienia status z Nowy na stary
-
-- Zmienic Rozmiary okienek do wybrania
-
-- Dodanie edycji posta z mozliwoscia jego usuniecia
-
-
-
-- usuniecie komentarzy
-
 # Blog
 
 ## Główne funkcje
@@ -25,7 +7,7 @@
 ## Uruchomienie
 
 ```bash
-git clone https://github.com/Foool1/Task_Manager.git
+git clone https://github.com/Foool1/Blog_DRF.git
 cd Blog
 docker compose up --build
 ```

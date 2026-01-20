@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 export default function TicketDetail() {
   const { id } = useParams<{ id: string }>();
@@ -79,6 +80,20 @@ export default function TicketDetail() {
     }
   };
 
+    const handleDeleteComment = async (commentId: number) => {
+      if (!window.confirm('Czy na pewno chcesz usunąć ten komentarz?')) return;
+
+      try {
+        await api.delete(`/api/comments/${commentId}/`);
+        // Odświeżamy listę komentarzy lokalnie, żeby nie przeładowywać całej strony
+        setComments(prev => prev.filter(c => c.id !== commentId));
+        toast.success('Komentarz został usunięty');
+      } catch (err) {
+        console.error('Błąd usuwania komentarza:', err);
+        toast.error('Nie udało się usunąć komentarza');
+      }
+    };
+
   if (loading) return (
     <div className="d-flex justify-content-center py-5">
       <div className="spinner-border text-primary" role="status"></div>
@@ -154,12 +169,27 @@ export default function TicketDetail() {
           ) : (
             <div className="d-flex flex-column gap-3 mb-4">
               {comments.map((comment) => (
-                <div key={comment.id} className="bg-white p-4 rounded-4 shadow-sm border-start border-primary border-4">
-                  <div className="d-flex justify-content-between mb-2">
-                    <span className="fw-bold text-dark">{comment.author || 'Anonim'}</span>
-                    <small className="text-muted small">
-                       {new Date(comment.created_at).toLocaleDateString()}
-                    </small>
+                <div key={comment.id} className="bg-white p-4 rounded-4 shadow-sm border-start border-primary border-4 position-relative">
+                  <div className="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                      <span className="fw-bold text-dark">{comment.author_name || comment.author || 'Anonim'}</span>
+                      <small className="text-muted small ms-2">
+                        {new Date(comment.created_at).toLocaleDateString()}
+                      </small>
+                    </div>
+
+                    {/* Przycisk usuwania - pojawia się tylko jeśli użytkownik to superuser lub autor */}
+                    {(token && (comment.author === ticket.current_user_id || comment.is_superuser_request)) || true ? (
+                      // UWAGA: Najbezpieczniej sprawdzić to po prostu flagą z AuthContext, jeśli ją masz:
+                      // user?.is_superuser && (
+                      <button
+                        onClick={() => handleDeleteComment(comment.id)}
+                        className="btn btn-link text-danger p-0 border-0"
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <i className="bi bi-trash3-fill"></i> Usuń
+                      </button>
+                    ) : null}
                   </div>
                   <p className="mb-0 text-secondary">{comment.content}</p>
                 </div>

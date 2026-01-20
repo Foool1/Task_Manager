@@ -3,7 +3,7 @@ import api from '../api/axios';
 
 interface AuthContextType {
   token: string | null;
-  user: any | null;  // Typuj wg User z DRF, np. {id, username}
+  user: any | null;
   login: (username: string, password: string) => Promise<void>;
   register: (data: {username: string, password: string, email?: string}) => Promise<void>;
   logout: () => void;
@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(res.data);
     } catch (err: any) {
       console.error('[fetchUser] Błąd:', err);
-      // Tylko jeśli status 401 i token istnieje – wtedy logout
       if (err.response?.status === 401 && currentToken) {
         logout();
       }
@@ -56,10 +55,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem('token', newToken);
       setToken(newToken);
 
-      // Ustaw header od razu
       api.defaults.headers.common['Authorization'] = `Token ${newToken}`;
 
-      // Pobierz usera – TU jest poprawne miejsce
       await fetchUser();
 
       return newToken;
@@ -83,7 +80,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      // auto-login
       await login(data.username, data.password);
     } catch (err: any) {
       console.error('Register error:', err);
