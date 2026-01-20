@@ -5,6 +5,9 @@ import api from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ReactQuill from 'react-quill-new'; // DODAJ TO
+import 'react-quill-new/dist/quill.snow.css';
+import DOMPurify from 'dompurify';
 
 export default function TicketForm() {
   const { id } = useParams<{ id?: string }>();
@@ -16,6 +19,16 @@ export default function TicketForm() {
   const [status, setStatus] = useState('Nowy');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      ['clean'] // przycisk usuwania formatowania
+    ],
+  };
 
   useEffect(() => {
     if (!id || !token) return;
@@ -100,17 +113,7 @@ export default function TicketForm() {
                   onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
                 />
               </div>
-              <div className="mb-4">
-                <label className="form-label small fw-bold text-secondary text-uppercase">Treść artykułu</label>
-                <textarea
-                  className="form-control bg-light border-0 px-3"
-                  rows={8}
-                  placeholder="Tutaj wpisz treść swojego posta..."
-                  value={opis}
-                  onChange={(e) => setOpis(e.target.value)}
-                  style={{ borderRadius: '10px' }}
-                />
-              </div>
+
 
               <div className="mb-5">
                 <label className="form-label small fw-bold text-secondary text-uppercase">Status</label>
@@ -125,7 +128,19 @@ export default function TicketForm() {
                   <option value="Rozwiązany">Rozwiązany</option>
                 </select>
               </div>
-
+              <div className="mb-4">
+                <label className="form-label small fw-bold text-secondary text-uppercase">Treść artykułu</label>
+                <div className="bg-light rounded-3 overflow-hidden">
+                  <ReactQuill
+                    theme="snow"
+                    value={opis}
+                    onChange={setOpis}
+                    modules={modules}
+                    placeholder="Napisz coś ciekawego..."
+                    style={{ height: '300px', marginBottom: '50px' }} // Dodatkowy margines na dole, bo pasek narzędzi zabiera miejsce
+                  />
+                </div>
+              </div>
               <div className="d-flex gap-2">
                 <button
                   type="submit"

@@ -9,6 +9,13 @@ export default function TicketsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
+  const stripHtml = (html: string) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
   const fetchTickets = async () => {
     setLoading(true);
     setError(null);
@@ -174,7 +181,7 @@ export default function TicketsList() {
 
       <p className="card-text text-muted mb-4 flex-grow-1" style={{ fontSize: '0.9rem', lineHeight: '1.5' }}>
         {ticket.opis
-          ? ticket.opis.substring(0, 90) + (ticket.opis.length > 90 ? '...' : '')
+          ? stripHtml(ticket.opis).substring(0, 90) + (stripHtml(ticket.opis).length > 90 ? '...' : '')
           : 'Brak opisu'}
       </p>
 

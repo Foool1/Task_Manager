@@ -136,9 +136,11 @@ export default function TicketDetail() {
           </div>
           )}
           {/* Treść - teraz zaczyna się znacznie wyżej */}
-          <div className="article-content" style={{ lineHeight: '1.7', color: '#334155', whiteSpace: 'pre-wrap', fontSize: '1.1rem' }}>
-            {ticket.opis || <span className="text-muted italic">Brak treści...</span>}
-          </div>
+          <div
+            className="article-content"
+            style={{ lineHeight: '1.7', color: '#334155', fontSize: '1.1rem' }}
+            dangerouslySetInnerHTML={{ __html: ticket.opis || '' }}
+          />
         </article>
 
         {/* Sekcja Komentarzy */}
