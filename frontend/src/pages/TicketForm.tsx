@@ -26,7 +26,7 @@ export default function TicketForm() {
       ['bold', 'italic', 'underline', 'strike'],
       [{ 'color': [] }, { 'background': [] }],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      ['clean'] // przycisk usuwania formatowania
+      ['link', 'image', 'clean'] // przycisk usuwania formatowania
     ],
   };
 

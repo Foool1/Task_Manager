@@ -77,3 +77,12 @@ body {
   background: linear-gradient(135deg, var(--bs-primary) 0%, #4338ca 100%);
   color: white;
 }
+
+.article-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px; /* Opcjonalnie: zaokrąglone rogi */
+  margin: 20px 0;     /* Opcjonalnie: odstęp góra/dół */
+  display: block;     /* Żeby marginy działały poprawnie */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Opcjonalnie: lekki cień */
+}

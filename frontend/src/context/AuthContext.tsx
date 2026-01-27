@@ -27,6 +27,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [token]);
 
+  useEffect(() => {
+    const initializeAuth = async () => {
+      if (token) {
+        console.log('[AuthContext] Inicjalizacja: pobieram dane użytkownika...');
+        await fetchUser();
+      }
+    };
+
+    initializeAuth();
+  }, []);
+
   const fetchUser = async () => {
     const currentToken = localStorage.getItem('token');
     if (!currentToken) {
