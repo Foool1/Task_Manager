@@ -1,12 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate} from 'react-router-dom';
 import api from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
 export default function TicketDetail() {
   const { id } = useParams<{ id: string }>();
-  const { token, logout } = useContext(AuthContext)!;
+  const { token, logout, user } = useContext(AuthContext)!;
+  console.log("Aktualny użytkownik w TicketDetail:", user);
+  const navigate = useNavigate();
 
   const [ticket, setTicket] = useState<any>(null);
   const [comments, setComments] = useState<any[]>([]);
@@ -39,6 +41,21 @@ export default function TicketDetail() {
 
     fetchData();
   }, [id]);
+
+  const handleDeletePost = async () => {
+    if (!window.confirm("CZY NA PEWNO chcesz trwale usunąć ten post?")) {
+      return;
+    }
+
+    try {
+      await api.delete(`/api/posts/${id}/`);
+      toast.success("Post został usunięty");
+      navigate('/'); // Przekierowanie na stronę główną
+    } catch (err) {
+      console.error("Błąd usuwania:", err);
+      toast.error("Nie udało się usunąć posta.");
+    }
+  };
 
   const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,16 +130,45 @@ export default function TicketDetail() {
         </div>
 
         {/* Treść Posta */}
-        <article className="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-5">
-          {/* Górna linia: Status i Data obok siebie */}
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <span className={`badge rounded-pill bg-${getStatusColor(ticket.status)} px-3 py-1`}>
-              {ticket.status}
-            </span>
-            <small className="text-muted fw-medium">
-              {new Date(ticket.created_at).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })}
-            </small>
-          </div>
+          <article className="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-5">
+
+            {/* Górna linia: Status, Przyciski Admina i Data */}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <div className="d-flex align-items-center gap-3">
+                {/* Status */}
+                <span className={`badge rounded-pill bg-${getStatusColor(ticket.status)} px-3 py-1`}>
+                  {ticket.status}
+                </span>
+
+                {/* --- PRZYCISKI TYLKO DLA SUPERUSERA --- */}
+                {user?.is_superuser && (
+                  <div className="d-flex gap-2">
+                    {/* Przycisk Edycji */}
+                    <Link
+                      to={`/tickets/${id}/edit`}
+                      className="btn btn-sm btn-outline-primary rounded-pill px-3"
+                      title="Edytuj post"
+                    >
+                      <i className="bi bi-pencil-square me-1"></i> Edytuj
+                    </Link>
+
+                    {/* Przycisk Usuwania */}
+                    <button
+                      onClick={handleDeletePost}
+                      className="btn btn-sm btn-outline-danger rounded-pill px-3"
+                      title="Usuń trwale"
+                    >
+                      <i className="bi bi-trash3 me-1"></i> Usuń
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Data */}
+              <small className="text-muted fw-medium">
+                {new Date(ticket.created_at).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </small>
+            </div>
 
           {/* Tytuł - zmniejszony margin-bottom z mb-4 na mb-3 */}
           <h1 className="fw-bold display-6 mb-3" style={{ letterSpacing: '-0.02em' }}>

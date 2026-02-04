@@ -28,7 +28,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
 class SimpleUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'username', 'email', 'is_superuser']
 
 
 class CommentSerializer(serializers.ModelSerializer):
