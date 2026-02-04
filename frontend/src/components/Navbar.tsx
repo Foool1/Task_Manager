@@ -59,7 +59,14 @@ export default function Navbar() {
                   </a>
                   <ul className="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
                     <li>
+                      <Link className="dropdown-item" to="/profile">
+                        <i className="bi bi-person-circle me-2"></i>
+                        Profil
+                      </Link>
+                    </li>
+                    <li>
                       <button className="dropdown-item text-danger" onClick={handleLogout}>
+                        <i className="bi bi-box-arrow-right me-2"></i>
                         Wyloguj się
                       </button>
                     </li>

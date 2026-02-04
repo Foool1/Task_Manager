@@ -82,7 +82,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['post']
+    filterset_fields = ['post', 'author']
 
     def get_queryset(self):
         """

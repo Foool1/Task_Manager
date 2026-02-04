@@ -6,6 +6,7 @@ import TicketDetail from './pages/TicketDetail';
 import TicketForm from './pages/TicketForm';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import UserProfile from './pages/UserProfile';
 import PrivateRoute from './components/PrivateRoute';  // Stwórz to
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,6 +26,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/tickets/new" element={<PrivateRoute><TicketForm /></PrivateRoute>} />
+              <Route path="/profile" element={<UserProfile />} />
               <Route path="/tickets/:id/edit" element={<PrivateRoute><TicketForm /></PrivateRoute>} />
             </Routes>
           </div>

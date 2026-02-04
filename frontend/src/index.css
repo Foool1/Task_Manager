@@ -86,3 +86,13 @@ body {
   display: block;     /* Żeby marginy działały poprawnie */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Opcjonalnie: lekki cień */
 }
+
+.nav-pills .nav-link {
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.nav-pills .nav-link:hover:not(.active) {
+  background-color: #f8f9fa; /* Delikatne podświetlenie przy najechaniu */
+  border-color: #dee2e6;
+}
