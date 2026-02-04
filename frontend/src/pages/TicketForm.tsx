@@ -124,8 +124,8 @@ export default function TicketForm() {
                   style={{ borderRadius: '10px', height: '50px' }}
                 >
                   <option value="Nowy">Nowy</option>
-                  <option value="W toku">W toku</option>
-                  <option value="Rozwiązany">Rozwiązany</option>
+                  <option value="Aktywny">Aktywny</option>
+                  <option value="Archiwalny">Archiwalny</option>
                 </select>
               </div>
               <div className="mb-4">

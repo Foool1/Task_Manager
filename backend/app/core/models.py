@@ -7,8 +7,8 @@ class Post(models.Model):
 
     status_choices = [
         ('Nowy', 'Nowy'),
-        ('W toku', 'W toku'),
-        ('Rozwiązany', 'Rozwiązany'),
+        ('Aktywny', 'Aktywny'),
+        ('Archiwalny', 'Archiwalny'),
     ]
     nazwa = models.CharField(max_length=255)
     opis = models.TextField(blank=True, null=True)
