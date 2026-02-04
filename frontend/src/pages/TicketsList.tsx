@@ -29,6 +29,15 @@ export default function TicketsList() {
     return tmp.textContent || tmp.innerText || "";
   };
 
+  const calculateReadingTime = (text: string) => {
+    const wordsPerMinute = 200;
+    // Usuwamy tagi HTML i liczymy słowa
+    const cleanText = text.replace(/<[^>]*>/g, '');
+    const words = cleanText.trim().split(/\s+/).length;
+    const minutes = Math.ceil(words / wordsPerMinute);
+    return minutes;
+  };
+
   const fetchTickets = async () => {
     // UWAGA: Nie ustawiamy setLoading(true) jeśli tylko odświeżamy listę przy pisaniu,
     // żeby ekran nie "mrugał". Ustawiamy loading tylko przy pierwszym wejściu lub zmianie filtrów.
@@ -186,11 +195,16 @@ export default function TicketsList() {
 
                 {/* TREŚĆ */}
                 <div className="card-body p-4 d-flex flex-column">
-                  <div className="mb-2">
+                  <div className="mb-2 d-flex align-items-center gap-3">
                     <span className="text-muted small fw-medium">
                       {new Date(ticket.created_at).toLocaleDateString('pl-PL')}
                     </span>
+                    <span className="text-muted small fw-medium">
+                      <i className="bi bi-clock me-1"></i>
+                      {calculateReadingTime(ticket.opis || '')} min.
+                    </span>
                   </div>
+
                   <h5 className="card-title fw-bold mb-2">
                     <Link to={`/tickets/${ticket.id}`} className="text-decoration-none text-dark stretched-link">
                       {ticket.nazwa}

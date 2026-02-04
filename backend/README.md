@@ -1,18 +1,13 @@
-- Dodac usuwanie komentarzy przez superusera
-
-- Usuwanie postow przez superusera
-
-- poprawa wylogowywania
-
-- Dodanie wyszukiwania postow
-
 - Poprawienie tego Nowy, w Toku, Rozwiazany na cos normalnego Moze po czasie automatycznie zmienia status z Nowy na stary
 
-- Zmienic Rozmiary okienek do wybrania
+- stworzenie zetawu danych startowych
 
-- Dodanie edycji posta z mozliwoscia jego usuniecia
+-----------------------------------------
+- Odpalanie aplikacji pod jedna komenda
 
+- WSZYSTKIE OSTATNIE POPRAWKI
 
+- Bezpieczeństwo strony
 
 - usuniecie komentarzy
 

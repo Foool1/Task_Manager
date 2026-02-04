@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate} from 'react-router-dom';
 import api from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function TicketDetail() {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +19,12 @@ export default function TicketDetail() {
   const [newComment, setNewComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [commentError, setCommentError] = useState<string | null>(null);
+
+  const shareUrl = window.location.href;
+  const shareTitle = ticket?.nazwa || "Ciekawy artykuł na blogu!";
+  const shareLinks = {
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`,
+  };
 
   useEffect(() => {
 
@@ -97,6 +105,15 @@ export default function TicketDetail() {
     }
   };
 
+    const calculateReadingTime = (text: string) => {
+      const wordsPerMinute = 200;
+      // Usuwamy tagi HTML i liczymy słowa
+      const cleanText = text.replace(/<[^>]*>/g, '');
+      const words = cleanText.trim().split(/\s+/).length;
+      const minutes = Math.ceil(words / wordsPerMinute);
+      return minutes;
+    };
+
     const handleDeleteComment = async (commentId: number) => {
       if (!window.confirm('Czy na pewno chcesz usunąć ten komentarz?')) return;
 
@@ -110,6 +127,26 @@ export default function TicketDetail() {
         toast.error('Nie udało się usunąć komentarza');
       }
     };
+    const downloadPDF = async () => {
+      const element = document.getElementById('printable-post'); // ID naszego posta
+      if (!element) return;
+
+      const canvas = await html2canvas(element, {
+        scale: 2, // Wyższa jakość
+        useCORS: true, // Ważne, jeśli masz zdjęcia z innego serwera
+        logging: false,
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      pdf.save(`post-${id}.pdf`);
+};
 
   if (loading) return (
     <div className="d-flex justify-content-center py-5">
@@ -121,16 +158,20 @@ export default function TicketDetail() {
   return (
     <div className="animate-fade-in row justify-content-center">
       <div className="col-lg-8">
-
-        {/* Nawigacja wstecz */}
-        <div className="mb-4">
+        {/* Nawigacja wstecz i Pobieranie */}
+        <div className="mb-4 d-flex justify-content-between align-items-center">
           <Link to="/" className="text-decoration-none text-muted fw-medium small">
             ← Powrót do wszystkich postów
           </Link>
+          <button
+            onClick={downloadPDF}
+            className="btn btn-sm btn-light border shadow-sm rounded-pill px-3"
+          >
+            <i className="bi bi-file-earmark-pdf text-danger me-1"></i> Pobierz PDF
+          </button>
         </div>
-
         {/* Treść Posta */}
-          <article className="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-5">
+          <article id="printable-post" className="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-5">
 
             {/* Górna linia: Status, Przyciski Admina i Data */}
             <div className="d-flex justify-content-between align-items-center mb-3">
@@ -176,15 +217,17 @@ export default function TicketDetail() {
           </h1>
 
           {/* Kompaktowy pasek autora - teraz jest bardzo niski i nie zabiera miejsca */}
-          <div className="d-flex align-items-center mb-4 pb-3 border-bottom">
+          <div className="d-flex align-items-center mb-4 pb-3 border-bottom text-muted" style={{ fontSize: '0.95rem' }}>
             <div className="bg-light text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold me-2"
                 style={{ width: '30px', height: '30px', fontSize: '12px', border: '1px solid #e2e8f0' }}>
               {ticket.przypisany_uzytkownik?.username?.charAt(0).toUpperCase()}
             </div>
-            <span className="fw-semibold text-dark me-2" style={{ fontSize: '0.95rem' }}>
+            <span className="fw-semibold text-dark me-2">
               {ticket.przypisany_uzytkownik?.username || 'Anonim'}
             </span>
-            <span className="text-muted" style={{ fontSize: '0.95rem' }}>• Autor wpisu</span>
+            <span className="me-2">• Autor wpisu</span>
+            <span className="me-2">•</span>
+            <span><i className="bi bi-clock me-1"></i> {calculateReadingTime(ticket.opis || '')} min. czytania</span>
           </div>
           {ticket.image && (
           <div className="mb-4 overflow-hidden rounded-4 shadow-sm">
@@ -202,6 +245,38 @@ export default function TicketDetail() {
             style={{ lineHeight: '1.7', color: '#334155', fontSize: '1.1rem' }}
             dangerouslySetInnerHTML={{ __html: ticket.opis || '' }}
           />
+          <div className="mt-5 pt-4 border-top">
+            <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+              <div>
+                <h6 className="fw-bold mb-1">Podobał Ci się ten wpis?</h6>
+                <p className="text-muted small mb-0">Udostępnij go w swoich mediach społecznościowych.</p>
+              </div>
+
+              <div className="d-flex gap-2">
+                {/* X */}
+                <a
+                  href={shareLinks.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-dark rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                  style={{ width: '40px', height: '40px' }}
+                >
+                  <i className="bi bi-twitter-x"></i>
+                </a>
+                {/* Kopiuj link */}
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(shareUrl);
+                    toast.success("Link skopiowany!");
+                  }}
+                  className="btn btn-secondary rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                  style={{ width: '40px', height: '40px' }}
+                >
+                  <i className="bi bi-link-45deg"></i>
+                </button>
+              </div>
+            </div>
+          </div>
         </article>
 
         {/* Sekcja Komentarzy */}
