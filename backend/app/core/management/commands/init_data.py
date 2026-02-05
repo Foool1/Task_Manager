@@ -49,7 +49,7 @@ class Command(BaseCommand):
                         <p>Nie obyło się bez problemów. Największym wyzwaniem okazało się zarządzanie stanem aplikacji i poprawna obsługa zapytań do bazy danych. W trakcie pracy wielokrotnie wracałem do dokumentacji i testowałem różne podejścia, aż udało się osiągnąć stabilne i przewidywalne działanie systemu.</p>
                         <p>Dziś aplikacja jest nie tylko projektem zaliczeniowym, ale także dowodem na to, jak wiele można nauczyć się poprzez praktykę. To doświadczenie pokazało mi, że najważniejsze w tworzeniu oprogramowania są konsekwencja, cierpliwość i gotowość do rozwiązywania problemów.</p>""",
                 'img_file': 'Post1.png',
-                'status': 'Nowy',
+                'status': 'Aktywny',
                 'author': admin
             },
             {
@@ -71,7 +71,7 @@ class Command(BaseCommand):
                         <p>Nie można pominąć roli społeczności open source. Dostęp do gotowych bibliotek, dokumentacji i przykładów sprawia, że nawet skomplikowane funkcje można wdrożyć szybciej. Programista nie zaczyna już od zera – buduje na fundamentach tworzonych przez tysiące innych osób.</p>
                         <p>Patrząc w przyszłość, można spodziewać się dalszej automatyzacji i integracji narzędzi. Coraz większą rolę odgrywa także sztuczna inteligencja wspierająca tworzenie kodu, analizę danych i optymalizację aplikacji. To sprawia, że rola programisty ewoluuje – z osoby piszącej kod w projektanta rozwiązań technologicznych.</p>""",
                 'img_file': 'Post3.png',
-                'status': 'W toku', # Zmieniłem na 'W toku'
+                'status': 'Nowy',
                 'author': user
             }
         ]
