@@ -11,10 +11,6 @@ from rest_framework.response import Response
 
 
 class IsSuperuserOrReadOnly(BasePermission):
-    """
-    Tylko superuser może tworzyć / modyfikować / usuwać.
-    Czytanie (GET, HEAD, OPTIONS) dla wszystkich.
-    """
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return True
@@ -82,18 +78,11 @@ class CommentViewSet(viewsets.ModelViewSet):
     filterset_fields = ['post', 'author']
 
     def get_queryset(self):
-        """
-        Opcjonalnie ograniczamy listę komentarzy tylko do tych należących do danego posta,
-        kiedy ktoś wejdzie na /api/posts/5/comments/
-        """
         if 'post_pk' in self.kwargs:
             return Comment.objects.filter(post_id=self.kwargs['post_pk'])
         return Comment.objects.all()
 
     def perform_create(self, serializer):
-        """
-        Automatycznie przypisujemy autora = zalogowany użytkownik
-        """
         serializer.save(author=self.request.user)
 
     def check_object_permissions(self, request, obj):
