@@ -1,11 +1,10 @@
-// src/pages/TicketForm.tsx
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import ReactQuill from 'react-quill-new'; // DODAJ TO
+import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 
@@ -26,7 +25,7 @@ export default function TicketForm() {
       ['bold', 'italic', 'underline', 'strike'],
       [{ 'color': [] }, { 'background': [] }],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      ['link', 'image', 'clean'] // przycisk usuwania formatowania
+      ['link', 'image', 'clean']
     ],
   };
 
@@ -52,14 +51,13 @@ export default function TicketForm() {
     e.preventDefault();
     setLoading(true);
 
-    // Tworzymy obiekt FormData zamiast zwykłego obiektu
     const formData = new FormData();
     formData.append('nazwa', nazwa.trim());
     formData.append('opis', opis.trim());
     formData.append('status', status);
 
     if (image) {
-      formData.append('image', image); // Dodajemy plik
+      formData.append('image', image);
     }
 
     try {
@@ -74,7 +72,6 @@ export default function TicketForm() {
       }
       navigate('/');
     } catch (err) {
-      // obsługa błędów...
     } finally {
       setLoading(false);
     }
@@ -137,7 +134,7 @@ export default function TicketForm() {
                     onChange={setOpis}
                     modules={modules}
                     placeholder="Napisz coś ciekawego..."
-                    style={{ height: '300px', marginBottom: '50px' }} // Dodatkowy margines na dole, bo pasek narzędzi zabiera miejsce
+                    style={{ height: '300px', marginBottom: '50px' }}
                   />
                 </div>
               </div>

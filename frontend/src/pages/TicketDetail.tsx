@@ -58,7 +58,7 @@ export default function TicketDetail() {
     try {
       await api.delete(`/api/posts/${id}/`);
       toast.success("Post został usunięty");
-      navigate('/'); // Przekierowanie na stronę główną
+      navigate('/');
     } catch (err) {
       console.error("Błąd usuwania:", err);
       toast.error("Nie udało się usunąć posta.");
@@ -107,7 +107,6 @@ export default function TicketDetail() {
 
     const calculateReadingTime = (text: string) => {
       const wordsPerMinute = 200;
-      // Usuwamy tagi HTML i liczymy słowa
       const cleanText = text.replace(/<[^>]*>/g, '');
       const words = cleanText.trim().split(/\s+/).length;
       const minutes = Math.ceil(words / wordsPerMinute);
@@ -119,7 +118,6 @@ export default function TicketDetail() {
 
       try {
         await api.delete(`/api/comments/${commentId}/`);
-        // Odświeżamy listę komentarzy lokalnie, żeby nie przeładowywać całej strony
         setComments(prev => prev.filter(c => c.id !== commentId));
         toast.success('Komentarz został usunięty');
       } catch (err) {
@@ -128,12 +126,12 @@ export default function TicketDetail() {
       }
     };
     const downloadPDF = async () => {
-      const element = document.getElementById('printable-post'); // ID naszego posta
+      const element = document.getElementById('printable-post');
       if (!element) return;
 
       const canvas = await html2canvas(element, {
-        scale: 2, // Wyższa jakość
-        useCORS: true, // Ważne, jeśli masz zdjęcia z innego serwera
+        scale: 2,
+        useCORS: true,
         logging: false,
       });
 
@@ -158,7 +156,6 @@ export default function TicketDetail() {
   return (
     <div className="animate-fade-in row justify-content-center">
       <div className="col-lg-8">
-        {/* Nawigacja wstecz i Pobieranie */}
         <div className="mb-4 d-flex justify-content-between align-items-center">
           <Link to="/" className="text-decoration-none text-muted fw-medium small">
             ← Powrót do wszystkich postów
@@ -170,21 +167,16 @@ export default function TicketDetail() {
             <i className="bi bi-file-earmark-pdf text-danger me-1"></i> Pobierz PDF
           </button>
         </div>
-        {/* Treść Posta */}
           <article id="printable-post" className="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-5">
 
-            {/* Górna linia: Status, Przyciski Admina i Data */}
             <div className="d-flex justify-content-between align-items-center mb-3">
               <div className="d-flex align-items-center gap-3">
-                {/* Status */}
                 <span className={`badge rounded-pill bg-${getStatusColor(ticket.status)} px-3 py-1`}>
                   {ticket.status}
                 </span>
 
-                {/* --- PRZYCISKI TYLKO DLA SUPERUSERA --- */}
                 {user?.is_superuser && (
                   <div className="d-flex gap-2">
-                    {/* Przycisk Edycji */}
                     <Link
                       to={`/tickets/${id}/edit`}
                       className="btn btn-sm btn-outline-primary rounded-pill px-3"
@@ -193,7 +185,6 @@ export default function TicketDetail() {
                       <i className="bi bi-pencil-square me-1"></i> Edytuj
                     </Link>
 
-                    {/* Przycisk Usuwania */}
                     <button
                       onClick={handleDeletePost}
                       className="btn btn-sm btn-outline-danger rounded-pill px-3"
@@ -205,18 +196,15 @@ export default function TicketDetail() {
                 )}
               </div>
 
-              {/* Data */}
               <small className="text-muted fw-medium">
                 {new Date(ticket.created_at).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })}
               </small>
             </div>
 
-          {/* Tytuł - zmniejszony margin-bottom z mb-4 na mb-3 */}
           <h1 className="fw-bold display-6 mb-3" style={{ letterSpacing: '-0.02em' }}>
             {ticket.nazwa}
           </h1>
 
-          {/* Kompaktowy pasek autora - teraz jest bardzo niski i nie zabiera miejsca */}
           <div className="d-flex align-items-center mb-4 pb-3 border-bottom text-muted" style={{ fontSize: '0.95rem' }}>
             <div className="bg-light text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold me-2"
                 style={{ width: '30px', height: '30px', fontSize: '12px', border: '1px solid #e2e8f0' }}>
@@ -239,7 +227,6 @@ export default function TicketDetail() {
             />
           </div>
           )}
-          {/* Treść - teraz zaczyna się znacznie wyżej */}
           <div
             className="article-content"
             style={{ lineHeight: '1.7', color: '#334155', fontSize: '1.1rem' }}
@@ -263,7 +250,6 @@ export default function TicketDetail() {
                 >
                   <i className="bi bi-twitter-x"></i>
                 </a>
-                {/* Kopiuj link */}
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(shareUrl);
@@ -279,7 +265,6 @@ export default function TicketDetail() {
           </div>
         </article>
 
-        {/* Sekcja Komentarzy */}
         <section className="mb-5">
           <h3 className="fw-bold mb-4">Komentarze ({comments.length})</h3>
 
@@ -299,10 +284,7 @@ export default function TicketDetail() {
                       </small>
                     </div>
 
-                    {/* Przycisk usuwania - pojawia się tylko jeśli użytkownik to superuser lub autor */}
                     {(token && (comment.author === ticket.current_user_id || comment.is_superuser_request)) || true ? (
-                      // UWAGA: Najbezpieczniej sprawdzić to po prostu flagą z AuthContext, jeśli ją masz:
-                      // user?.is_superuser && (
                       <button
                         onClick={() => handleDeleteComment(comment.id)}
                         className="btn btn-link text-danger p-0 border-0"
@@ -318,7 +300,6 @@ export default function TicketDetail() {
             </div>
           )}
 
-          {/* Formularz Komentarza */}
           {token ? (
             <div className="bg-white p-4 rounded-4 shadow-sm">
               <h5 className="fw-bold mb-3">Dodaj komentarz</h5>
@@ -355,8 +336,8 @@ export default function TicketDetail() {
 function getStatusColor(status: string): string {
   switch (status) {
     case 'Nowy': return 'primary';
-    case 'W toku': return 'warning';
-    case 'Rozwiązany': return 'success';
+    case 'Aktywny': return 'warning';
+    case 'Archiwalny': return 'success';
     default: return 'secondary';
   }
 }

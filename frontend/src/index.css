@@ -1,24 +1,21 @@
-/* 1. Import nowoczesnego fontu "Inter" */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Nadpisanie kolorów Bootstrapa na nowocześniejsze */
-  --bs-primary: #4f46e5;       /* Indigo */
+  --bs-primary: #4f46e5;
   --bs-primary-rgb: 79, 70, 229;
-  --bs-body-bg: #f8fafc;       /* Slate-50 (bardzo jasny szary) */
-  --bs-body-color: #334155;    /* Slate-700 (nie czarny, a ciemnoszary) */
+  --bs-body-bg: #f8fafc;
+  --bs-body-color: #334155;
   --bs-font-sans-serif: 'Inter', sans-serif;
-  --bs-border-radius: 0.75rem; /* Bardziej zaokrąglone rogi */
+  --bs-border-radius: 0.75rem;
 }
 
 body {
   font-family: var(--bs-font-sans-serif);
   background-color: var(--bs-body-bg);
   color: var(--bs-body-color);
-  -webkit-font-smoothing: antialiased; /* Lepsze renderowanie fontów na Mac */
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 2. Stylowanie Kart - sprawiamy, że "odstają" od tła */
 .card {
   border: none;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
@@ -26,31 +23,28 @@ body {
   background-color: #ffffff;
 }
 
-/* Efekt najechania na kartę (opcjonalnie, jeśli to link) */
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
 }
 
-/* 3. Nowoczesne Przyciski */
 .btn {
   font-weight: 500;
-  padding: 0.6rem 1.2rem; /* Więcej oddechu */
+  padding: 0.6rem 1.2rem;
   letter-spacing: 0.025em;
 }
 
 .btn-primary {
   background-color: var(--bs-primary);
   border-color: var(--bs-primary);
-  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3); /* Cień w kolorze przycisku */
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: #4338ca; /* Ciemniejsze Indigo */
+  background-color: #4338ca;
   border-color: #4338ca;
 }
 
-/* 4. Navbar Custom */
 .navbar-custom {
   background-color: #ffffff;
   border-bottom: 1px solid #e2e8f0;
@@ -58,13 +52,13 @@ body {
 
 .navbar-brand {
   font-weight: 700;
-  letter-spacing: -0.05em; /* Ciaśniejszy kerning dla logo */
+  letter-spacing: -0.05em;
   color: var(--bs-primary) !important;
 }
 
 /* Linki w nawigacji */
 .nav-link {
-  color: #64748b !important; /* Slate-500 */
+  color: #64748b !important;
   font-weight: 500;
   transition: color 0.2s;
 }
@@ -81,10 +75,10 @@ body {
 .article-content img {
   max-width: 100%;
   height: auto;
-  border-radius: 8px; /* Opcjonalnie: zaokrąglone rogi */
-  margin: 20px 0;     /* Opcjonalnie: odstęp góra/dół */
-  display: block;     /* Żeby marginy działały poprawnie */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Opcjonalnie: lekki cień */
+  border-radius: 8px;
+  margin: 20px 0;
+  display: block;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .nav-pills .nav-link {
@@ -93,6 +87,6 @@ body {
 }
 
 .nav-pills .nav-link:hover:not(.active) {
-  background-color: #f8f9fa; /* Delikatne podświetlenie przy najechaniu */
+  background-color: #f8f9fa;
   border-color: #dee2e6;
 }

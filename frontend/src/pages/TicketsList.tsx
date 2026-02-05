@@ -9,16 +9,13 @@ export default function TicketsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // --- STANY FILTRÓW ---
   const [searchInput, setSearchInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
-  // --- PAGINACJA (CLIENT-SIDE) ---
   const [page, setPage] = useState(1);
-  const pageSize = 12; // Ile postów na stronę
+  const pageSize = 12;
 
-  // --- DEBOUNCING ---
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       setSearchTerm(searchInput);
@@ -27,7 +24,6 @@ export default function TicketsList() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchInput]);
 
-  // --- HELPERY ---
   const stripHtml = (html: string) => {
     const tmp = document.createElement("DIV");
     tmp.innerHTML = html;
@@ -42,15 +38,11 @@ export default function TicketsList() {
     return minutes;
   };
 
-  // --- RESETOWANIE PAGINACJI ---
-  // Jeśli zmienimy filtry (wyszukiwanie/status), musimy wrócić na 1 stronę,
-  // bo liczba wyników się zmieni.
   useEffect(() => {
     setPage(1);
   }, [searchTerm, statusFilter]);
 
   const fetchTickets = async () => {
-    // Spinner tylko przy pierwszym ładowaniu (pusta lista)
     if (tickets.length === 0) setLoading(true);
     setError(null);
 
@@ -60,10 +52,8 @@ export default function TicketsList() {
           _nocache: Date.now(),
           search: searchTerm,
           status: statusFilter
-          // UWAGA: Nie wysyłamy tu 'page', bo backend zwraca wszystko
         }
       });
-      // Zapisujemy WSZYSTKIE pobrane wyniki
       setTickets(res.data || []);
     } catch (err: any) {
       console.error('Błąd pobierania ticketów:', err);
@@ -73,11 +63,8 @@ export default function TicketsList() {
     }
   };
 
-  // Reagujemy na zmiany w filtrach.
-  // UWAGA: Nie dodajemy tutaj 'page', bo zmiana strony NIE wymaga zapytania do API (dane już mamy).
   useEffect(() => {
     fetchTickets();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logout, searchTerm, statusFilter]);
 
   const handleRefresh = () => {
@@ -87,7 +74,7 @@ export default function TicketsList() {
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Przewiń do góry
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   function getStatusColor(status: string): string {
@@ -99,14 +86,11 @@ export default function TicketsList() {
     }
   }
 
-  // --- LOGIKA CIĘCIA DANYCH (PAGINACJA) ---
-  // Obliczamy, które elementy z dużej tablicy 'tickets' pokazać teraz
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentTickets = tickets.slice(startIndex, endIndex); // To wyświetlamy
-  const totalPages = Math.ceil(tickets.length / pageSize);    // Całkowita liczba stron
+  const currentTickets = tickets.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(tickets.length / pageSize);
 
-  // Error handling przy starcie
   if (error && tickets.length === 0) {
     return (
       <div className="alert alert-danger d-flex align-items-center justify-content-between mt-4" role="alert">
@@ -119,7 +103,6 @@ export default function TicketsList() {
   return (
     <div className="animate-fade-in">
 
-      {/* --- HERO SECTION (Bez zmian) --- */}
       <div className="hero-gradient p-5 rounded-4 mb-5 shadow-sm text-white position-relative overflow-hidden">
         <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'rgba(255,255,255,0.1)', borderRadius: '50%' }}></div>
         <div style={{ position: 'absolute', bottom: '-20px', left: '10%', width: '100px', height: '100px', background: 'rgba(255,255,255,0.05)', borderRadius: '50%' }}></div>
@@ -143,7 +126,6 @@ export default function TicketsList() {
         </div>
       </div>
 
-      {/* --- FILTRY --- */}
       <div className="d-flex flex-column flex-md-row gap-3 mb-4 align-items-md-center justify-content-between">
         <h3 className="fw-bold text-dark m-0">
           Najnowsze wpisy <small className="text-muted fs-6 fw-normal">({tickets.length})</small>
@@ -176,7 +158,6 @@ export default function TicketsList() {
         </div>
       </div>
 
-      {/* --- LISTA POSTÓW --- */}
       {loading && tickets.length === 0 ? (
         <div className="d-flex justify-content-center py-5">
            <div className="spinner-border text-primary" role="status"></div>
@@ -188,7 +169,6 @@ export default function TicketsList() {
         </div>
       ) : (
         <>
-            {/* Renderujemy currentTickets (wycinek), a nie wszystkie tickets */}
             <div className="row g-4" style={{ opacity: loading ? 0.5 : 1, transition: 'opacity 0.2s' }}>
             {currentTickets.map((ticket) => (
                 <div key={ticket.id} className="col-md-6 col-lg-4">
@@ -217,7 +197,6 @@ export default function TicketsList() {
                     </div>
                     </div>
 
-                    {/* TREŚĆ */}
                     <div className="card-body p-4 d-flex flex-column">
                     <div className="mb-2 d-flex align-items-center gap-3">
                         <span className="text-muted small fw-medium">
@@ -249,12 +228,10 @@ export default function TicketsList() {
             ))}
             </div>
 
-            {/* --- PAGINACJA UI --- */}
             {totalPages > 1 && (
                 <div className="d-flex justify-content-center mt-5">
                     <nav aria-label="Page navigation">
                         <ul className="pagination shadow-sm">
-                            {/* Przycisk Wstecz */}
                             <li className={`page-item ${page === 1 ? 'disabled' : ''}`}>
                                 <button
                                     className="page-link border-0 rounded-start-pill px-3"
@@ -265,11 +242,8 @@ export default function TicketsList() {
                                 </button>
                             </li>
 
-                            {/* Numery stron */}
                             {[...Array(totalPages)].map((_, index) => {
                                 const pageNum = index + 1;
-                                // Opcjonalnie: ukrywanie dużej liczby stron (np. pokazuj tylko max 5)
-                                // Tutaj uproszczone: pokazujemy wszystkie
                                 return (
                                     <li key={pageNum} className={`page-item ${page === pageNum ? 'active' : ''}`}>
                                         <button
@@ -283,7 +257,6 @@ export default function TicketsList() {
                                 );
                             })}
 
-                            {/* Przycisk Dalej */}
                             <li className={`page-item ${page === totalPages ? 'disabled' : ''}`}>
                                 <button
                                     className="page-link border-0 rounded-end-pill px-3"

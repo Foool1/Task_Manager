@@ -7,7 +7,7 @@ import TicketForm from './pages/TicketForm';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import UserProfile from './pages/UserProfile';
-import PrivateRoute from './components/PrivateRoute';  // Stwórz to
+import PrivateRoute from './components/PrivateRoute';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -16,9 +16,8 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className="d-flex flex-column min-vh-100"> {/* Wrapper na całą apkę */}
+        <div className="d-flex flex-column min-vh-100">
           <Navbar />
-          {/* ZMIANA: py-5 dla większego oddechu góra/dół */}
           <div className="container py-5 flex-grow-1">
             <Routes>
               <Route path="/" element={<TicketsList />} />

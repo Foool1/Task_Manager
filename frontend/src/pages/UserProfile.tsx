@@ -11,7 +11,6 @@ export default function UserProfile() {
   const [myComments, setMyComments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Stany formularza ustawień
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -19,13 +18,10 @@ export default function UserProfile() {
   useEffect(() => {
     if (!user) return;
 
-    // Ustawiamy email z danych usera
     setEmail(user.email || '');
 
     const fetchHistory = async () => {
       try {
-        // Pobieramy komentarze tego użytkownika
-        // WAŻNE: Wymaga filterset_fields = ['post', 'author'] w views.py
         const res = await api.get('/api/comments/', {
           params: { author: user.id }
         });
@@ -45,18 +41,16 @@ export default function UserProfile() {
     setIsSaving(true);
 
     try {
-      // Przygotuj dane do wysłania
       const payload: any = { email };
       if (password) {
-        payload.password = password; // Django zaktualizuje hasło tylko jeśli je wyślemy
+        payload.password = password;
       }
 
       await api.patch(`/api/users/${user.id}/`, payload);
 
       toast.success('Profil zaktualizowany pomyślnie!');
-      setPassword(''); // Czyścimy pole hasła dla bezpieczeństwa
+      setPassword('');
 
-      // Opcjonalnie: Jeśli zmieniono hasło, można wylogować użytkownika
       if (password) {
         toast.info('Hasło zmienione. Zaloguj się ponownie.');
         logout();
@@ -76,7 +70,6 @@ export default function UserProfile() {
     <div className="animate-fade-in container py-5">
       <div className="row g-4">
 
-        {/* LEWA KOLUMNA - Karta Profilowa */}
         <div className="col-lg-4">
           <div className="card border-0 shadow-sm rounded-4 overflow-hidden text-center sticky-top" style={{ top: '100px' }}>
             <div className="card-body p-5 bg-white">
@@ -105,11 +98,9 @@ export default function UserProfile() {
           </div>
         </div>
 
-        {/* PRAWA KOLUMNA - Zakładki */}
         <div className="col-lg-8">
           <div className="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
 
-            {/* Nawigacja Zakładek */}
             <div className="card-header bg-white border-bottom p-0">
               <ul className="nav nav-pills p-3 gap-2">
                 <li className="nav-item">
@@ -133,7 +124,6 @@ export default function UserProfile() {
 
             <div className="card-body p-4 p-md-5">
 
-              {/* TREŚĆ: Moja Aktywność */}
               {activeTab === 'activity' && (
                 <div>
                   <h4 className="fw-bold mb-4">Twoje ostatnie komentarze</h4>
@@ -163,7 +153,6 @@ export default function UserProfile() {
                 </div>
               )}
 
-              {/* TREŚĆ: Ustawienia */}
               {activeTab === 'settings' && (
                 <form onSubmit={handleUpdateProfile}>
                   <h4 className="fw-bold mb-4">Edycja danych</h4>
