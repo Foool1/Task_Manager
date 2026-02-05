@@ -16,15 +16,12 @@ class IsSuperuserOrReadOnly(BasePermission):
     Czytanie (GET, HEAD, OPTIONS) dla wszystkich.
     """
     def has_permission(self, request, view):
-        # SAFE_METHODS → GET, HEAD, OPTIONS → każdy
         if request.method in SAFE_METHODS:
             return True
-        # reszta (POST, PUT, PATCH, DELETE) → tylko superuser
         return request.user and request.user.is_superuser
 
 
 class IsAuthenticatedOrReadOnly(BasePermission):
-    # ← już znasz, ale dla kompletności
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return True
@@ -48,7 +45,7 @@ class RegisterUserView(mixins.CreateModelMixin,
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = SimpleUserSerializer
-    permission_classes = [AllowOptions]  # ← zostaje, bo chcemy tylko zalogowanych
+    permission_classes = [AllowOptions]
 
     @action(detail=False, methods=['get'], url_path='me')
     def me(self, request):
