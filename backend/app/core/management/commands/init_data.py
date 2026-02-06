@@ -8,7 +8,6 @@ from django.conf import settings
 
 User = get_user_model()
 
-# POPRAWKA 1: Ścieżka uwzględnia folder 'media'
 source_img_dir = os.path.join(settings.BASE_DIR, 'media', 'post_images')
 print("DEBUG: Skrypt init_data.py został załadowany!")
 class Command(BaseCommand):
@@ -17,7 +16,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write('Rozpoczynam inicjalizację danych...')
 
-        # 1. Tworzenie Superusera (Admina)
         admin, created = User.objects.get_or_create(
             username='admin',
             defaults={'email': 'admin@example.com', 'is_superuser': True, 'is_staff': True}
@@ -29,7 +27,6 @@ class Command(BaseCommand):
         else:
             self.stdout.write('Admin już istnieje.')
 
-        # 2. Tworzenie zwykłego użytkownika
         user, created = User.objects.get_or_create(
             username='jan_kowalski',
             defaults={'email': 'jan@example.com'}
@@ -39,7 +36,6 @@ class Command(BaseCommand):
             user.save()
             self.stdout.write(self.style.SUCCESS('Utworzono użytkownika Jan Kowalski'))
 
-        # 3. Przykładowe Posty
         posts_data = [
             {
                 'nazwa': 'Jak powstawała moja aplikacja – od pomysłu do działającego projektu',
@@ -90,7 +86,6 @@ class Command(BaseCommand):
             if created:
                 created_posts.append(post)
 
-                # Logika dodawania zdjęcia tylko przy tworzeniu
                 path_to_img = os.path.join(source_img_dir, p_data['img_file'])
 
                 if os.path.exists(path_to_img):
@@ -104,7 +99,6 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f'Utworzono {len(created_posts)} nowych postów.'))
 
-        # 4. Komentarze - POPRAWKA: Szukamy posta, który faktycznie istnieje!
         target_post_name = 'Jak powstawała moja aplikacja – od pomysłu do działającego projektu'
 
         if Post.objects.filter(nazwa=target_post_name).exists():
