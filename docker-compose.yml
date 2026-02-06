@@ -1,14 +1,13 @@
 version: '3.8'
 
 services:
-  # --- BACKEND (Twoja aplikacja Django) ---
   app:
     build:
-      context: ./backend  # Ścieżka do folderu z Dockerfile backendu
+      context: ./backend
       args:
         - DEV=false
     ports:
-      - "8002:8000"       # Zostawiamy Twój port 8002
+      - "8002:8000"
     volumes:
       - ./backend/app:/app
     command: >
@@ -24,7 +23,6 @@ services:
     depends_on:
       - db
 
-  # --- BAZA DANYCH (PostgreSQL) ---
   db:
     image: postgres:16-alpine
     volumes:
@@ -37,13 +35,13 @@ services:
   # --- FRONTEND (React/Vite/itp.) ---
   frontend:
     build:
-      context: ./frontend # Ścieżka do folderu z Dockerfile frontendu
+      context: ./frontend
     ports:
-      - "3000:3000"       # Front na 3000 (jeśli npm start go tam wystawia)
+      - "3000:3000"
     stdin_open: true
     tty: true
     depends_on:
-      - app               # Najpierw niech wstanie API
+      - app
 
 volumes:
   dev-db-data:
