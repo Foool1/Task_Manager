@@ -12,6 +12,7 @@ Projekt inżynierski: System zarządzania treścią blogową oparty na architekt
 
 Aplikacja jest w pełni skonteneryzowana. Do jej uruchomienia wymagane jest jedynie zainstalowanie środowiska **Docker** oraz **Docker Compose**.
 
+(Dla uzytkownikow Windows zalecane jest korzystanie z terminala PowerShell.)
 ### Krok 1: Wejscie do głównego folderu
 ```bash
 cd 10-I-INF-319708
