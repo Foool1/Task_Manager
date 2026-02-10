@@ -23,7 +23,7 @@ W głównym katalogu projektu wykonaj polecenie:
 ```Bash
 docker compose up --build
 ```
-    Uwaga: Pierwsze uruchomienie może potrwać kilka minut (budowanie obrazów). Skrypt automatycznie wykonuje migracje bazy danych oraz zasila ją danymi testowymi (użytkownicy, posty, zdjęcia).
+Uwaga: Pierwsze uruchomienie może potrwać kilka minut (budowanie obrazów). Skrypt automatycznie wykonuje migracje bazy danych oraz zasila ją danymi testowymi (użytkownicy, posty, zdjęcia).
 
 ### Dostęp do aplikacji
 
