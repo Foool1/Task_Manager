@@ -1,33 +1,54 @@
-# Blog
+# System zarządzania treścią blogową oparty na architekturze REST z użyciem Django REST Framework i React
 
-## Główne funkcje
+Projekt inżynierski: System zarządzania treścią blogową oparty na architekturze REST z użyciem Django REST Framework i React.
 
-- Swagger UI z pełną dokumentacją pod `http://127.0.0.1:8000/api/docs`
+## 🛠 Technologie
+* **Backend:** Python 3.12, Django 5.0, Django REST Framework
+* **Frontend:** React 18, Node.js
+* **Baza danych:** PostgreSQL 16
+* **Infrastruktura:** Docker, Docker Compose
 
-## Uruchomienie
+## 🚀 Uruchomienie aplikacji (Windows / Linux / macOS)
 
+Aplikacja jest w pełni skonteneryzowana. Do jej uruchomienia wymagane jest jedynie zainstalowanie środowiska **Docker** oraz **Docker Compose**.
+
+### Krok 1: Wejscie do głównego folderu
 ```bash
-git clone https://github.com/Foool1/Blog_DRF.git
-cd Blog
-docker compose up --build
+cd 10-I-INF-319708
 ```
 
-# Uzywanie aplikacji
+### Krok 2: Uruchom system
 
-Przejdź do: http://127.0.0.1:8000/api/docs
+W głównym katalogu projektu wykonaj polecenie:
+```Bash
+docker compose up --build
+```
+    Uwaga: Pierwsze uruchomienie może potrwać kilka minut (budowanie obrazów). Skrypt automatycznie wykonuje migracje bazy danych oraz zasila ją danymi testowymi (użytkownicy, posty, zdjęcia).
 
-Zarejestruj nowego użytkownika przez endpoint: POST /api/register/
+### Dostęp do aplikacji
 
-Zaloguj się przez: POST /api/login/
+Po poprawnym uruchomieniu kontenery są dostępne pod następującymi adresami:
+```bash
+Usługa	Adres URL	Opis
+Frontend	http://localhost:3000	Główny interfejs aplikacji
+API Backend	http://localhost:8002/api/docs	Punkty końcowe REST API
+```
 
-Skopiuj token z odpowiedzi i wpisz go w Swaggerze jako: Token <token otrzymany po zalogowaniu>
-(przycisk "Authorize" w prawym górnym rogu)
+### Dane testowe (Logowanie)
 
-###  Najważniejsze endpointy po zalogowaniu
+Podczas startu system automatycznie tworzy konta użytkowników (skrypt init_data).
+1. Administrator (Superuser)
 
-- `GET /api/posts/` – lista wszystkich postow (z filtrowaniem)
-- `POST /api/posts/` – tworzenie nowego postu
-- `GET /api/posts/{id}/` – szczegóły konkretnego postu
-- `PUT /api/posts/{id}/` – pełna edycja postu
-- `PATCH /api/posts/{id}/` – częściowa edycja postu
-- `DELETE /api/posts/{id}/` – usunięcie postu
+Ma pełny dostęp do wszystkich funkcji (edycja, usuwanie, panel admina).
+
+    Login: admin
+
+    Hasło: admin123
+
+2. Przykładowy Użytkownik
+
+Ma dostęp do komentowania i przeglądania.
+
+    Login: jan_kowalski
+
+    Hasło: user123
