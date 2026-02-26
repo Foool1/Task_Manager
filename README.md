@@ -1,6 +1,6 @@
 # System zarządzania treścią blogową oparty na architekturze REST z użyciem Django REST Framework i React
 
-Projekt inżynierski: System zarządzania treścią blogową oparty na architekturze REST z użyciem Django REST Framework i React.
+System zarządzania treścią blogową oparty na architekturze REST z użyciem Django REST Framework i React.
 
 ## 🛠 Technologie
 * **Backend:** Python 3.12, Django 5.0, Django REST Framework
