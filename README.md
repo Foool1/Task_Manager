@@ -15,7 +15,7 @@ Aplikacja jest w pełni skonteneryzowana. Do jej uruchomienia wymagane jest jedy
 (Dla uzytkownikow Windows zalecane jest korzystanie z terminala PowerShell.)
 ### Krok 1: Wejscie do głównego folderu
 ```bash
-cd 10-I-INF-319708
+cd Blog
 ```
 
 ### Krok 2: Uruchom system
